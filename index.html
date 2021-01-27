@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,18 +8,118 @@
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
     <div id=login-area>
         <h1 class="text-center">Welcome to my Bank</h1>
         <div class="submit-area">
             <h4>login</h4>
-            <input type="text" class="form-control" >
+            <input type="text" class="form-control" placeholder="email">
             <br>
-            <input type="password" class="form-control">
+            <input type="password" class="form-control" placeholder="password">
             <br>
-            <button class="btn bg-success">Login</button>
+            <button id="login" class="btn bg-success">Login</button>
         </div>
     </div>
+    <div id="transection-area">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="deposit status">
+                    <h5>Deposit</h5>
+                    <h2>$ <span id="oldAmount">00</span></h2>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="withdraw status">
+                    <h5>Withdraw</h5>
+                    <h2>$ <span id="oldValue">00</span></h2>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="balance status">
+                    <h5>Balance</h5>
+                    <h2>$ <span id="oldBalance">1000</span></h2>
+                </div>
+            </div>
+        </div>
+        <div class="row area-2">
+            <div class="col-md-6">
+                <div class="submit-area">
+                    <h3>Deposit</h3>
+                    <input type="text" id="depositAmount" class="form-control" placeholder="$ amount want to Deposit">
+                    <br>
+                    <button id="depositBtn" class="btn bg-success">Deposit</button>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="submit-area">
+                    <h3>Withdraw</h3>
+                    <input type="text" id="withdrawAmount" class="form-control" placeholder="$ amount want to withdraw">
+                    <br>
+                    <button id="withdrawBtn" class="btn bg-success">Withdraw</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+
+        //login button event handler
+        const loginBtn = document.getElementById("login");
+        loginBtn.addEventListener('click', function () {
+            const loginArea = document.getElementById("login-area");
+            loginArea.style.display = 'none';
+            const transectionArea = document.getElementById("transection-area");
+            transectionArea.style.display = "block";
+        })
+        //deposit button event handler
+        const depositBtn = document.getElementById('depositBtn');
+        depositBtn.addEventListener('click', function () {
+            const depositNumber = getInputNumber('depositAmount');
+
+            //update deposit amount
+            updateSpanText('oldAmount', depositNumber);
+
+            //update Balance
+            updateSpanText('oldBalance', depositNumber);
+
+            document.getElementById('depositAmount').value = "";
+        });
+
+        //function for Update span Text
+        function updateSpanText(id, depositNumber) {
+                const old = document.getElementById(id).innerText;
+                const oldNumber = parseFloat(old);
+                const current = oldNumber + depositNumber;
+                document.getElementById(id).innerText = current;
+            }
+
+
+        //withdraw button event handler
+        const withdrawBtn = document.getElementById('withdrawBtn');
+        withdrawBtn.addEventListener('click', function () {
+            const withdrawAmountNumber = getInputNumber('withdrawAmount');
+
+
+            // update withdraw status
+            updateSpanText('oldValue', withdrawAmountNumber);
+        
+            //update balance status
+            updateSpanText('oldBalance', (-1* withdrawAmountNumber));
+
+            document.getElementById('withdrawAmount').value = "";
+            
+        })
+
+
+        // function for get input number from input field.
+        function getInputNumber(id) {
+            const amount = document.getElementById(id).value;
+            const amountNumber = parseFloat(amount);
+            return amountNumber;
+        }
+
+
+    </script>
 
 
 
@@ -34,4 +135,5 @@
 
     <script src="js/bootstrap.min.js"></script>
 </body>
+
 </html>
